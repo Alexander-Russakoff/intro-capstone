@@ -12,7 +12,6 @@ import datetime
 import pprint
 
 import tkinter as tk
-#from tkinter import ttk
 from tkinter import scrolledtext
   
 
@@ -26,9 +25,7 @@ def makeRequest():
     
     r = requests.get(url,headers=headers)
     
-    #print(r.status_code)
-    #print(r.text)
-    #print(r.json())
+
     if r.status_code == 200:
         request = r.json()
         return request['events']
