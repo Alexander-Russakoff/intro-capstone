@@ -45,3 +45,17 @@ def isValidDay(string, cutoff):
 print(isValidDay("2023-01-12",endDate))
 print(isValidDay("2023-01-24",endDate))
 print(isValidDay("2023-01-30",endDate))
+
+
+
+def removeEventNotWithinTwoWeeks(dictList):
+  eventsWithinTwoWeeks = []  
+  for i in range(len(dictList)):
+    if isValidDay(dictList[i]["event_date"] , endDate):
+      print(dictList[i]["event_date"])
+      eventsWithinTwoWeeks.append(dictList[i])
+      
+  print(*eventsWithinTwoWeeks, sep="\n\n")
+
+  return eventsWithinTwoWeeks
+
