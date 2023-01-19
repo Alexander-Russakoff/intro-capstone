@@ -19,9 +19,8 @@ def getEvents():
     r = pip._vendor.requests.get(url, headers=headers)
     if r.status_code == 200:
         data = json.loads(r.text)
-        events = data['events']
 
-        return events
+        return data['events']
     else:
         print(f"Error: {r.status_code}")
 
