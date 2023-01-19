@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jan 18 09:46:10 2023
 
-@author: alex
-"""
 
 
 import datetime
@@ -53,10 +49,10 @@ def removeEventNotWithinTwoWeeks(dictList):
   eventsWithinTwoWeeks = []  
   for i in range(len(dictList)):
     if isValidDay(dictList[i]["event_date"] , endDate):
-      print(dictList[i]["event_date"])
+      #print(dictList[i]["event_date"])
       eventsWithinTwoWeeks.append(dictList[i])
 
-  print(*eventsWithinTwoWeeks, sep="\n\n")
+  #print(*eventsWithinTwoWeeks, sep="\n\n")
 
   return eventsWithinTwoWeeks
 
