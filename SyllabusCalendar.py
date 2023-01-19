@@ -41,7 +41,7 @@ def updateText(calendar,events,eventType):
     calendar.insert(tk.END,eventsByType(events,eventType))
     print(eventsByType(events,eventType))
     calendar.configure(state='disabled')
-
+    calendar.tag_add("text_highlight", "1.0", "end")
 #return an event of a specific type
 #allowed types: assignment lecture lab sprint break
 def eventsByType(events,eventType):
@@ -82,15 +82,18 @@ calendar = scrolledtext.ScrolledText(root,font={"Arial Bold",20},width=78,height
 buttonFrame = tk.Frame(root)
 
 
-assignmentButton = tk.Button(buttonFrame, text="Assignments", command =lambda: updateText(calendar,events_all,"Assignment"))
-lectureButton = tk.Button(buttonFrame, text="Lectures", command =lambda: updateText(calendar,events_all,"Lecture"))
-labButton = tk.Button(buttonFrame, text="Labs", command =lambda: updateText(calendar,events_all,"Lab"))
-sprintButton = tk.Button(buttonFrame, text="Sprints",command=lambda: updateText(calendar,events_all,"Sprint"))
-breakButton = tk.Button(buttonFrame, text="BREAK", command=lambda: updateText(calendar,events_all,"Break"))
+assignmentButton = tk.Button(buttonFrame, text="Assignments", font = ("Helvetica", 15, "bold"), command =lambda: updateText(calendar,events_all,"Assignment"))
+lectureButton = tk.Button(buttonFrame, text="Lectures", font = ("Helvetica", 15, "bold"), command =lambda: updateText(calendar,events_all,"Lecture"))
+labButton = tk.Button(buttonFrame, text="Labs", font = ("Helvetica", 15, "bold"),  command =lambda: updateText(calendar,events_all,"Lab"))
+sprintButton = tk.Button(buttonFrame, text="Sprints", font = ("Helvetica", 15, "bold"), command=lambda: updateText(calendar,events_all,"Sprint"))
+breakButton = tk.Button(buttonFrame, text="BREAK", font = ("Helvetica", 15, "bold"), command=lambda: updateText(calendar,events_all,"Break"))
 
+calendar.tag_config("text_highlight", font=("Arial Bold",12))
 
 calendar.insert(tk.INSERT,text)
 calendar.configure(state="disabled")
+
+calendar.tag_add("text_highlight", "1.0", "end")
 
 calendar.grid(row=0,column=0)
 
