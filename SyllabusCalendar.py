@@ -34,11 +34,22 @@ def makeRequest():
     
     return None
 
+def paintFormattedText(calendar,text):
+    calendar.tag_configure('big', font=('monospace', 14, 'bold','underline'))
+    calendar.tag_configure('smoll',font=('monospace',12))
+    for x in range(0,len(text)):
+        if x%2:
+            calendar.insert(tk.END,text[x],'smoll')
+        else:
+            calendar.insert(tk.END,text[x],'big')
+
 #update the text based on event type
 def updateText(calendar,events,eventType):
     calendar.configure(state='normal')
     calendar.delete(1.0,tk.END)
-    calendar.insert(tk.END,eventsByType(events,eventType))
+    temp = eventsByType(events,eventType)
+    paintFormattedText(calendar,temp)
+    #calendar.insert(tk.END,eventsByType(events,eventType))
     #print(eventsByType(events,eventType))
     calendar.configure(state='disabled')
 
@@ -46,8 +57,13 @@ def updateText(calendar,events,eventType):
     
 def upcoming(calendar,text):
     calendar.configure(state='normal')
+
     calendar.delete(1.0,tk.END)
-    calendar.insert(tk.END,text)
+    
+    paintFormattedText(calendar,text)
+               
+    #calendar.delete(1.0,tk.END)
+    #calendar.insert(tk.END,text)
     #print(eventsByType(events,eventType))
     calendar.configure(state='disabled')
 
@@ -56,16 +72,17 @@ def upcoming(calendar,text):
 def eventsByType(events,eventType):
     return prettyPrint([x for x in events if x['class_type']==eventType])
     
-
+#modified to return a list
 def prettyPrint(events):
     DATE_KEY = 'event_date'
     NAME_KEY = 'event_name'
     DESCRIPTION_KEY = 'event_description'
     TYPE_KEY = 'class_type'
     
-    temp = ""
+    temp = []
     for x in events:
-        temp = temp + x[DATE_KEY] + " | " + x[NAME_KEY] +" | "+ x[TYPE_KEY]+ "\n\n" + x[DESCRIPTION_KEY]+"\n\n"
+        temp.append(x[DATE_KEY] + " : " + x[NAME_KEY] +" : "+ x[TYPE_KEY])
+        temp.append("\n\n" + x[DESCRIPTION_KEY]+"\n\n")
     return temp
 
 #print("Begin")
@@ -86,7 +103,7 @@ root = tk.Tk()
 root.title("Capstone Calender")
 root.geometry("800x500")
 #labButton = ttk.Button
-calendar = scrolledtext.ScrolledText(root,font={"Arial Bold",20},width=78,height=24)#,wrap=tk.WORD)
+calendar = scrolledtext.ScrolledText(root,font={"Arial Bold",20},width=78,height=24,wrap=tk.WORD)
 #calendar.winfo_geometry("800x450")
 buttonFrame = tk.Frame(root)
 
@@ -100,7 +117,8 @@ breakButton = tk.Button(buttonFrame, text="BREAK", font = ("Helvetica", 15, "bol
 
 #calendar.tag_config("text_highlight", font=("Arial Bold",12))
 
-calendar.insert(tk.INSERT,text)
+#calendar.insert(tk.INSERT,text)
+upcoming(calendar,text)
 calendar.configure(state="disabled")
 
 #calendar.tag_add("text_highlight", "1.0", tk.END)
