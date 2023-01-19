@@ -39,9 +39,18 @@ def updateText(calendar,events,eventType):
     calendar.configure(state='normal')
     calendar.delete(1.0,tk.END)
     calendar.insert(tk.END,eventsByType(events,eventType))
-    print(eventsByType(events,eventType))
+    #print(eventsByType(events,eventType))
     calendar.configure(state='disabled')
-    calendar.tag_add("text_highlight", "1.0", "end")
+
+    
+    
+def upcoming(calendar,text):
+    calendar.configure(state='normal')
+    calendar.delete(1.0,tk.END)
+    calendar.insert(tk.END,text)
+    #print(eventsByType(events,eventType))
+    calendar.configure(state='disabled')
+
 #return an event of a specific type
 #allowed types: assignment lecture lab sprint break
 def eventsByType(events,eventType):
@@ -59,7 +68,7 @@ def prettyPrint(events):
         temp = temp + x[DATE_KEY] + " | " + x[NAME_KEY] +" | "+ x[TYPE_KEY]+ "\n\n" + x[DESCRIPTION_KEY]+"\n\n"
     return temp
 
-print("Begin")
+#print("Begin")
 
 #get all events
 events_all = makeRequest()
@@ -68,7 +77,7 @@ events = removeEventNotWithinTwoWeeks(events_all)
 
 text = prettyPrint(events)
 
-print(text)
+#print(text)
 
 
 
@@ -81,6 +90,7 @@ calendar = scrolledtext.ScrolledText(root,font={"Arial Bold",20},width=78,height
 #calendar.winfo_geometry("800x450")
 buttonFrame = tk.Frame(root)
 
+upcomingButton = tk.Button(buttonFrame, text="Upcoming", font = ("Helvetica", 15, "bold"), command =lambda: upcoming(calendar,text))
 
 assignmentButton = tk.Button(buttonFrame, text="Assignments", font = ("Helvetica", 15, "bold"), command =lambda: updateText(calendar,events_all,"Assignment"))
 lectureButton = tk.Button(buttonFrame, text="Lectures", font = ("Helvetica", 15, "bold"), command =lambda: updateText(calendar,events_all,"Lecture"))
@@ -88,24 +98,26 @@ labButton = tk.Button(buttonFrame, text="Labs", font = ("Helvetica", 15, "bold")
 sprintButton = tk.Button(buttonFrame, text="Sprints", font = ("Helvetica", 15, "bold"), command=lambda: updateText(calendar,events_all,"Sprint"))
 breakButton = tk.Button(buttonFrame, text="BREAK", font = ("Helvetica", 15, "bold"), command=lambda: updateText(calendar,events_all,"Break"))
 
-calendar.tag_config("text_highlight", font=("Arial Bold",12))
+#calendar.tag_config("text_highlight", font=("Arial Bold",12))
 
 calendar.insert(tk.INSERT,text)
 calendar.configure(state="disabled")
 
-calendar.tag_add("text_highlight", "1.0", "end")
+#calendar.tag_add("text_highlight", "1.0", tk.END)
 
 calendar.grid(row=0,column=0)
+
 
 assignmentButton.grid(row=0,column=0,sticky='W')
 lectureButton.grid(row=0,column=1,sticky='W')
 labButton.grid(row=0,column=2,sticky='W')
 sprintButton.grid(row=0,column=3,sticky='W')
 breakButton.grid(row=0,column=4,sticky='W')
-
+upcomingButton.grid(row=0,column=5,sticky='W')
+#add frame to window
 buttonFrame.grid(row=1,column=0,sticky='W')
 #calendar.delete(1.0,tk.END)
 #calendar.insert(tk.END, eventsByType(events_all,"Assignment"))
 root.mainloop()
 
-prettyPrint(events)
+#prettyPrint(events)
